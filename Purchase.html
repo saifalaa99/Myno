@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد الطلب - ماينو</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global & Basic Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --dark-bg: #101010;
+            --card-bg: #1c1c1c;
+            --text-color: #e0e0e0;
+            --link-hover-color: #fca311;
+            --gradient: linear-gradient(135deg, #0d6efd, #00b4d8);
+            --body-gradient: linear-gradient(135deg, #0a0e1a 0%, #1e3a5f 50%, #0a0e1a 100%);
+        }
+
+        body {
+            background: var(--body-gradient);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .purchase-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .purchase-container h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+
+        .purchase-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .purchase-form .input-group {
+            position: relative;
+        }
+
+        .purchase-form input,
+        .purchase-form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            transition: border-color 0.2s ease;
+        }
+
+        .purchase-form input:focus,
+        .purchase-form select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        /* Style the select dropdown arrow */
+        .purchase-form select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e0e0e0'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 15px center;
+            background-size: 20px;
+        }
+
+        .payment-options {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .payment-options h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--link-hover-color);
+        }
+
+        .payment-option {
+            display: none; /* Hide all payment details by default */
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            text-align: right;
+            line-height: 1.6;
+        }
+        
+        .payment-option p {
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-bottom: 8px;
+        }
+        
+        .payment-option strong {
+            color: var(--link-hover-color);
+        }
+
+        #bankDetails, #zainCashDetails, #manualPaymentDetails {
+            display: none; /* Make sure these are hidden initially */
+        }
+        
+        .qr-code {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .purchase-btn {
+            padding: 15px;
+            border: none;
+            background: var(--gradient);
+            color: white;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 25px;
+        }
+
+        .purchase-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="purchase-container">
+        <h2>تأكيد الطلب</h2>
+        <form class="purchase-form" action="thanks.html">
+            <input type="text" placeholder="الاسم الكامل" required>
+            <input type="email" placeholder="البريد الإلكتروني" required>
+            <input type="tel" placeholder="رقم الهاتف (واتساب / تليجرام)" required>
+            
+            <div class="input-group">
+                <select id="paymentMethod" required>
+                    <option value="" selected disabled>اختر طريقة الدفع</option>
+                    <option value="zainCash">زين كاش</option>
+                    <option value="bank">تحويل بنكي (آسيا حوالة)</option>
+                    <option value="manual">دفع يدوي (كارت) - متاح في بغداد فقط</option>
+                </select>
+            </div>
+
+            <div class="payment-options">
+                <div id="zainCashDetails" class="payment-option">
+                    <h3>معلومات الدفع عن طريق زين كاش</h3>
+                    <p>المبلغ المطلوب: <strong>20,000 د.ع</strong></p>
+                    <p>رقم المحفظة: <strong>0780xxxxxxx</strong></p>
+                    <img src="https://i.ibb.co/tZ90g1s/zain-cash-qr.png" alt="Zain Cash QR Code" class="qr-code">
+                    <p>يرجى إرسال لقطة شاشة للتحويل على الواتساب أو التليجرام الخاص بنا لتأكيد الدفع.</p>
+                </div>
+
+                <div id="bankDetails" class="payment-option">
+                    <h3>معلومات الدفع عن طريق آسيا حوالة</h3>
+                    <p>المبلغ المطلوب: <strong>20,000 د.ع</strong></p>
+                    <p>رقم الحساب: <strong>8174781215</strong></p>
+                    <p>اسم صاحب الحساب: <strong>علي محمد</strong></p>
+                    <p>يرجى إرسال لقطة شاشة للتحويل على الواتساب أو التليجرام الخاص بنا لتأكيد الدفع.</p>
+                </div>
+                
+                <div id="manualPaymentDetails" class="payment-option">
+                    <h3>الدفع يدوياً</h3>
+                    <p><strong>ملاحظة:</strong> هذه الطريقة متاحة في بغداد فقط.</p>
+                    <p>سيتم التواصل معك على رقم الهاتف لتحديد موعد ومكان التسليم اليدوي.</p>
+                    <p>المبلغ: <strong>20,000 د.ع</strong></p>
+                </div>
+            </div>
+
+            <button type="submit" class="purchase-btn">
+                تأكيد الطلب
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const paymentMethodSelect = document.getElementById('paymentMethod');
+        const zainCashDetails = document.getElementById('zainCashDetails');
+        const bankDetails = document.getElementById('bankDetails');
+        const manualPaymentDetails = document.getElementById('manualPaymentDetails');
+
+        paymentMethodSelect.addEventListener('change', (event) => {
+            // Hide all details sections first
+            zainCashDetails.style.display = 'none';
+            bankDetails.style.display = 'none';
+            manualPaymentDetails.style.display = 'none';
+
+            // Show the selected section
+            const selectedMethod = event.target.value;
+            if (selectedMethod === 'zainCash') {
+                zainCashDetails.style.display = 'block';
+            } else if (selectedMethod === 'bank') {
+                bankDetails.style.display = 'block';
+            } else if (selectedMethod === 'manual') {
+                manualPaymentDetails.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
