@@ -1,946 +1,910 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ماينو - متجر حسابات ماين كرافت</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Global & Basic Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        :root {
-            --primary-color: #0d6efd;
-            --secondary-color: #6c757d;
-            --dark-bg: #101010;
-            --card-bg: #1c1c1c;
-            --text-color: #e0e0e0;
-            --link-hover-color: #fca311;
-            --gradient: linear-gradient(135deg, #0d6efd, #00b4d8);
-            /* تدرج الخلفية الجديد */
-            --body-gradient: linear-gradient(135deg, #0a0e1a 0%, #1e3a5f 50%, #0a0e1a 100%);
-        }
-
-        body {
-            background: var(--body-gradient);
-            color: var(--text-color);
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Header & Navbar */
-        header {
-            background-color: rgba(16, 16, 16, 0.7);
-            position: sticky;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 12px 0;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            color: var(--text-color);
-        }
-
-        .logo img {
-            height: 32px;
-            width: auto;
-        }
-
-        .logo h1 {
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-            align-items: center;
-            padding: 0;
-            margin: 0;
-        }
-
-        nav a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: color 0.2s ease;
-            position: relative;
-        }
-
-        nav a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            display: block;
-            margin-top: 5px;
-            background: var(--link-hover-color);
-            transition: width .2s ease;
-            right: 0;
-        }
-
-        nav a:hover:after, nav a.active:after {
-            width: 100%;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .nav-button {
-            padding: 8px 20px;
-            background: var(--gradient);
-            color: white;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            font-size: 0.9rem;
-        }
-
-        .nav-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .currency-select {
-            position: relative;
-        }
-
-        .currency-btn {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: var(--text-color);
-            padding: 6px 12px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.2s ease;
-        }
-
-        .currency-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .currency-dropdown {
-            position: absolute;
-            top: 110%;
-            right: 0;
-            background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 5px;
-            min-width: 120px;
-            display: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 10;
-        }
-
-        .currency-dropdown.show {
-            display: block;
-        }
-
-        .currency-option {
-            padding: 8px 10px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: background-color 0.2s ease;
-            border-radius: 6px;
-        }
-
-        .currency-option:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            position: absolute;
-            top: 12px;
-            right: 15px;
-            cursor: pointer;
-        }
-
-        .mobile-menu div {
-            width: 25px;
-            height: 3px;
-            background-color: var(--text-color);
-            transition: all 0.2s ease;
-        }
-
-        .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1001;
-            top: 0;
-            right: 0;
-            background-color: rgba(16, 16, 16, 0.95);
-            backdrop-filter: blur(10px);
-            overflow-x: hidden;
-            transition: 0.3s;
-            padding-top: 60px;
-            text-align: center;
-            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .sidebar a {
-            padding: 15px 8px 15px 32px;
-            text-decoration: none;
-            font-size: 1.5rem;
-            color: #818181;
-            display: block;
-            transition: 0.2s;
-        }
-
-        .sidebar a:hover {
-            color: #f1f1f1;
-        }
-
-        .sidebar .close-btn {
-            position: absolute;
-            top: 0;
-            left: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-            color: #aaa;
-        }
-
-        @media (max-width: 768px) {
-            nav, .nav-links {
-                display: none;
-            }
-            .mobile-menu {
-                display: flex;
-            }
-            .navbar {
-                justify-content: flex-end;
-            }
-            .logo {
-                margin-right: auto;
-            }
-        }
-
-        /* Sections & Content */
-        section {
-            padding: 50px 0;
-            min-height: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            position: relative;
-        }
-
-        /* جعل الأقسام نفسها شبه شفافة للسماح بظهور التدرج من خلفها */
-        #features, #product, #faq, #contact, #about {
-            background-color: rgba(0, 0, 0, 0.3);
-            margin: 0;
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        #home {
-            padding: 0;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('myno_tik.png') no-repeat center center/cover;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        .content-box {
-            background: rgba(28, 28, 28, 0.6);
-            backdrop-filter: blur(5px);
-            padding: 40px 60px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 800px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Home Page */
-        .hero-content {
-            color: white;
-            padding: 100px 0;
-        }
-
-        .hero-content h2 {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            color: #ccc;
-        }
-
-        .hero-content .btn {
-            padding: 15px 40px;
-            background: var(--gradient);
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.2s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .hero-content .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Section Titles */
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 30px;
-            font-weight: bold;
-            position: relative;
-        }
-
-        /* Product Card */
-        #product .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 40px;
-            max-width: 450px;
-            margin-top: 20px;
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
-        }
-
-        .product-card .icon {
-            font-size: 3.5rem;
-            color: var(--link-hover-color);
-            margin-bottom: 25px;
-        }
-
-        .product-card h3 {
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-
-        .product-card .price {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--link-hover-color);
-            margin-top: 25px;
-        }
-
-        .product-card .buy-btn {
-            padding: 12px 30px;
-            background: var(--gradient);
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 30px;
-            display: inline-block;
-            transition: transform 0.2s ease;
-        }
-
-        /* Features Section */
-        .features-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: auto;
-        }
-
-        .feature-item {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        .feature-item i {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            transition: transform 0.2s ease;
-        }
-
-        .feature-item:hover i {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .feature-item h4 {
-            font-size: 1.2rem;
-            color: var(--link-hover-color);
-            margin-bottom: 10px;
-        }
-
-        .feature-item p {
-            font-size: 0.9rem;
-            color: #b0b0b0;
-        }
-
-        /* FAQ Section */
-        .faq-content {
-            max-width: 800px;
-            margin: auto;
-        }
-
-        .faq-item {
-            background: var(--card-bg);
-            border-radius: 8px;
-            margin-bottom: 15px;
-            padding: 20px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease;
-        }
-
-        .faq-item:hover {
-            transform: translateY(-3px);
-        }
-
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .faq-question i {
-            transition: transform 0.2s ease;
-        }
-
-        .faq-question.active i {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-            padding: 0 10px;
-            color: #b0b0b0;
-        }
-
-        .faq-answer.show {
-            max-height: 200px;
-            padding-top: 15px;
-        }
-
-        /* Contact & About Sections */
-        .contact-content, .about-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            text-align: center;
-            max-width: 900px;
-            margin: auto;
-        }
-
-        .contact-item, .about-item {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease;
-        }
-
-        .contact-item:hover, .about-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .contact-item i, .about-item i {
-            font-size: 2.2rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            transition: transform 0.2s ease;
-        }
-
-        .contact-item:hover i, .about-item:hover i {
-            transform: scale(1.1);
-        }
-
-        .contact-item h4, .about-item h4 {
-            font-size: 1.1rem;
-            color: var(--link-hover-color);
-            margin-bottom: 5px;
-        }
-
-        .contact-item p, .about-item p {
-            font-size: 0.9rem;
-            color: #b0b0b0;
-        }
-        
-        /* New about image style */
-        .about-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 4px solid var(--primary-color);
-            box-shadow: 0 0 15px var(--primary-color);
-            transition: transform 0.2s ease;
-        }
-        
-        .about-image:hover {
-            transform: scale(1.1);
-        }
-
-        /* Purchase Modal */
-        .purchase-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 400px;
-            position: relative;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            font-size: 1.3rem;
-            cursor: pointer;
-            color: #999;
-        }
-
-        .close-modal:hover {
-            color: var(--link-hover-color);
-        }
-
-        .purchase-form input,
-        .purchase-form select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            font-size: 0.9rem;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-color);
-        }
-
-        .purchase-form button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            background: var(--gradient);
-            color: white;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .purchase-form button:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Footer */
-        footer {
-            padding: 20px;
-            text-align: center;
-            background-color: rgba(16, 16, 16, 0.7);
-            color: #888;
-            font-size: 0.8rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماينو - متجر حسابات ماين كرافت</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --dark-bg: #101010;
+            --card-bg: #1c1c1c;
+            --text-color: #e0e0e0;
+            --link-hover-color: #fca311;
+            --gradient: linear-gradient(135deg, #0d6efd, #00b4d8);
+            --body-gradient: linear-gradient(135deg, #0a0e1a 0%, #1e3a5f 50%, #0a0e1a 100%);
+        }
+
+        body {
+            background: var(--body-gradient);
+            color: var(--text-color);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: rgba(16, 16, 16, 0.7);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 12px 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .logo img {
+            height: 32px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            background: var(--link-hover-color);
+            transition: width .2s ease;
+            right: 0;
+        }
+
+        nav a:hover:after, nav a.active:after {
+            width: 100%;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-button {
+            padding: 8px 20px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .currency-select {
+            position: relative;
+        }
+
+        .currency-btn {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            padding: 6px 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .currency-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .currency-dropdown {
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 5px;
+            min-width: 120px;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .currency-dropdown.show {
+            display: block;
+        }
+
+        .currency-option {
+            padding: 8px 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.2s ease;
+            border-radius: 6px;
+        }
+
+        .currency-option:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            cursor: pointer;
+        }
+
+        .mobile-menu div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1001;
+            top: 0;
+            right: 0;
+            background-color: rgba(16, 16, 16, 0.95);
+            backdrop-filter: blur(10px);
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 60px;
+            text-align: center;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar a {
+            padding: 15px 8px 15px 32px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            color: #818181;
+            display: block;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 0;
+            left: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            nav, .nav-links {
+                display: none;
+            }
+            .mobile-menu {
+                display: flex;
+            }
+            .navbar {
+                justify-content: flex-end;
+            }
+            .logo {
+                margin-right: auto;
+            }
+        }
+
+        section {
+            padding: 50px 0;
+            min-height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            position: relative;
+        }
+
+        #features, #product, #faq, #contact, #about {
+            background-color: rgba(0, 0, 0, 0.3);
+            margin: 0;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #home {
+            padding: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('myno_tik.png') no-repeat center center/cover;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .content-box {
+            background: rgba(28, 28, 28, 0.6);
+            backdrop-filter: blur(5px);
+            padding: 40px 60px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            color: white;
+            padding: 100px 0;
+        }
+
+        .hero-content h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #ccc;
+        }
+
+        .hero-content .btn {
+            padding: 15px 40px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .hero-content .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        #product .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            max-width: 450px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .product-card .icon {
+            font-size: 3.5rem;
+            color: var(--link-hover-color);
+            margin-bottom: 25px;
+        }
+
+        .product-card h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .product-card .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--link-hover-color);
+            margin-top: 25px;
+        }
+
+        .product-card .buy-btn {
+            padding: 12px 30px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 30px;
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .features-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .feature-item {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-item i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .feature-item:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-item h4 {
+            font-size: 1.2rem;
+            color: var(--link-hover-color);
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+
+        .faq-content {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .faq-question i {
+            transition: transform 0.2s ease;
+        }
+
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            padding: 0 10px;
+            color: #b0b0b0;
+        }
+
+        .faq-answer.show {
+            max-height: 200px;
+            padding-top: 15px;
+        }
+
+        .contact-content, .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            text-align: center;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .contact-item, .about-item {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .contact-item:hover, .about-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-item i, .about-item i {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .contact-item:hover i, .about-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .contact-item h4, .about-item h4 {
+            font-size: 1.1rem;
+            color: var(--link-hover-color);
+            margin-bottom: 5px;
+        }
+
+        .contact-item p, .about-item p {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+        
+        .about-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+            transition: transform 0.2s ease;
+        }
+        
+        .about-image:hover {
+            transform: scale(1.1);
+        }
+
+        .purchase-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close-modal:hover {
+            color: var(--link-hover-color);
+        }
+
+        .purchase-form input,
+        .purchase-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+        }
+
+        .purchase-form button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: var(--gradient);
+            color: white;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .purchase-form button:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(16, 16, 16, 0.7);
+            color: #888;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <div class="container navbar">
-            <a href="#home" class="logo">
-                <img src="myno_logo.png" alt="Myno Logo">
-                <h1>ماينو</h1>
-            </a>
-            <nav>
-                <ul>
-                    <li><a href="#home" class="nav-link">الرئيسية</a></li>
-                    <li><a href="#features" class="nav-link">المميزات</a></li>
-                    <li><a href="#product" class="nav-link">المنتج</a></li>
-                    <li><a href="#faq" class="nav-link">الأسئلة الشائعة</a></li>
-                    <li><a href="#contact" class="nav-link">التواصل</a></li>
-                    <li><a href="#about" class="nav-link">عننا</a></li>
-                </ul>
-            </nav>
-            <div class="nav-links">
-                <div class="currency-select">
-                    <div class="currency-btn" id="currency-btn">
-                        <i class="fas fa-dollar-sign"></i>
-                        <span>دينار عراقي</span>
-                    </div>
-                    <div class="currency-dropdown" id="currency-dropdown">
-                        <div class="currency-option" data-currency="IQD">دينار عراقي</div>
-                        <div class="currency-option" data-currency="USD">دولار أمريكي</div>
-                        <div class="currency-option" data-currency="EUR">يورو</div>
-                    </div>
-                </div>
-                <a href="#product" class="nav-button">اطلب الآن</a>
-            </div>
-            <div class="mobile-menu" onclick="toggleSidebar()">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-    </header>
+    <header>
+        <div class="container navbar">
+            <a href="#home" class="logo">
+                <img src="myno_logo.png" alt="Myno Logo">
+                <h1>ماينو</h1>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#home" class="nav-link">الرئيسية</a></li>
+                    <li><a href="#features" class="nav-link">المميزات</a></li>
+                    <li><a href="#product" class="nav-link">المنتج</a></li>
+                    <li><a href="#faq" class="nav-link">الأسئلة الشائعة</a></li>
+                    <li><a href="#contact" class="nav-link">التواصل</a></li>
+                    <li><a href="#about" class="nav-link">عننا</a></li>
+                </ul>
+            </nav>
+            <div class="nav-links">
+                <div class="currency-select">
+                    <div class="currency-btn" id="currency-btn">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span>دينار عراقي</span>
+                    </div>
+                    <div class="currency-dropdown" id="currency-dropdown">
+                        <div class="currency-option" data-currency="IQD">دينار عراقي</div>
+                        <div class="currency-option" data-currency="USD">دولار أمريكي</div>
+                        <div class="currency-option" data-currency="EUR">يورو</div>
+                    </div>
+                </div>
+                <a href="#product" class="nav-button">اطلب الآن</a>
+            </div>
+            <div class="mobile-menu" onclick="toggleSidebar()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
 
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">&times;</a>
-        <a href="#home" class="nav-link" onclick="toggleSidebar()">الرئيسية</a>
-        <a href="#features" class="nav-link" onclick="toggleSidebar()">المميزات</a>
-        <a href="#product" class="nav-link" onclick="toggleSidebar()">المنتج</a>
-        <a href="#faq" class="nav-link" onclick="toggleSidebar()">الأسئلة الشائعة</a>
-        <a href="#contact" class="nav-link" onclick="toggleSidebar()">التواصل</a>
-        <a href="#about" class="nav-link" onclick="toggleSidebar()">عننا</a>
-        <a href="#" class="nav-link" onclick="openPurchaseModal(); toggleSidebar();">اطلب الآن</a>
-    </div>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">&times;</a>
+        <a href="#home" class="nav-link" onclick="toggleSidebar()">الرئيسية</a>
+        <a href="#features" class="nav-link" onclick="toggleSidebar()">المميزات</a>
+        <a href="#product" class="nav-link" onclick="toggleSidebar()">المنتج</a>
+        <a href="#faq" class="nav-link" onclick="toggleSidebar()">الأسئلة الشائعة</a>
+        <a href="#contact" class="nav-link" onclick="toggleSidebar()">التواصل</a>
+        <a href="#about" class="nav-link" onclick="toggleSidebar()">عننا</a>
+        <a href="#" class="nav-link" onclick="openPurchaseModal(); toggleSidebar();">اطلب الآن</a>
+    </div>
 
-    <main>
-        <section id="home" class="visible">
-            <div class="container hero-content">
-                <h2>ماينو - متجر حسابات ماين كرافت</h2>
-                <p>أفضل الحسابات الأصلية، تسليم فوري، وضمان كامل.</p>
-                <a href="#product" class="btn">اكتشف الآن</a>
-            </div>
-        </section>
+    <main>
+        <section id="home" class="visible">
+            <div class="container hero-content">
+                <h2>ماينو - متجر حسابات ماين كرافت</h2>
+                <p>أفضل الحسابات الأصلية، تسليم فوري، وضمان كامل.</p>
+                <a href="#product" class="btn">اكتشف الآن</a>
+            </div>
+        </section>
 
-        <section id="features">
-            <div class="container">
-                <h2 class="section-title">لماذا تختار ماينو؟</h2>
-                <div class="features-content">
-                    <div class="feature-item">
-                        <i class="fas fa-check-circle"></i>
-                        <h4>جودة عالية</h4>
-                        <p>نضمن لك حسابات أصلية 100%، خالية من أي مشاكل أو حظر.</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-shipping-fast"></i>
-                        <h4>سرعة التسليم</h4>
-                        <p>استلم حسابك في ثوانٍ معدودة بعد إتمام عملية الدفع.</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-lock"></i>
-                        <h4>أمان موثوق</h4>
-                        <p>معاملاتنا آمنة تمامًا، وخصوصية بياناتك هي أولويتنا القصوى.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section id="features">
+            <div class="container">
+                <h2 class="section-title">لماذا تختار ماينو؟</h2>
+                <div class="features-content">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>جودة عالية</h4>
+                        <p>نضمن لك حسابات أصلية 100%، خالية من أي مشاكل أو حظر.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shipping-fast"></i>
+                        <h4>سرعة التسليم</h4>
+                        <p>استلم حسابك في ثوانٍ معدودة بعد إتمام عملية الدفع.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-lock"></i>
+                        <h4>أمان موثوق</h4>
+                        <p>معاملاتنا آمنة تمامًا، وخصوصية بياناتك هي أولويتنا القصوى.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <section id="product">
-            <div class="container">
-                <h2 class="section-title">المنتج المتاح</h2>
-                <div class="product-card">
-                    <i class="fas fa-crown icon"></i>
-                    <h3>حساب ماين كرافت أصلية</h3>
-                    <p>حساب Minecraft أصلي مع ضمان مدى الحياة.</p>
-                    <span class="price" data-iqd="20000" data-usd="15" data-eur="13">20,000 د.ع</span>
-                    <a href="#" class="buy-btn" onclick="openPurchaseModal()">شراء الآن</a>
-                </div>
-            </div>
-        </section>
+        <section id="product">
+            <div class="container">
+                <h2 class="section-title">المنتج المتاح</h2>
+                <div class="product-card">
+                    <i class="fas fa-crown icon"></i>
+                    <h3>حساب ماين كرافت أصلية</h3>
+                    <p>حساب Minecraft أصلي مع ضمان مدى الحياة.</p>
+                    <span class="price" data-iqd="20000" data-usd="15" data-eur="13">20,000 د.ع</span>
+                    <a href="#" class="buy-btn" onclick="openPurchaseModal()">شراء الآن</a>
+                </div>
+            </div>
+        </section>
 
-        <section id="faq">
-            <div class="container">
-                <h2 class="section-title">الأسئلة الشائعة</h2>
-                <div class="faq-content">
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>هل الحسابات أصلية؟</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>نعم، جميع الحسابات المتوفرة في متجرنا هي حسابات أصلية من شركة Mojang، وتأتي مع ضمان كامل.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>ما هي طرق الدفع المتاحة؟</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>نحن نوفر العديد من طرق الدفع الآمنة لتسهيل عملية الشراء عليك.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>متى سيصلني الحساب بعد الدفع؟</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>يتم تسليم الحساب بشكل فوري عبر البريد الإلكتروني بعد تأكيد عملية الدفع مباشرةً.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section id="faq">
+            <div class="container">
+                <h2 class="section-title">الأسئلة الشائعة</h2>
+                <div class="faq-content">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>هل الحسابات أصلية؟</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>نعم، جميع الحسابات المتوفرة في متجرنا هي حسابات أصلية من شركة Mojang، وتأتي مع ضمان كامل.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>ما هي طرق الدفع المتاحة؟</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>نحن نوفر العديد من طرق الدفع الآمنة لتسهيل عملية الشراء عليك.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>متى سيصلني الحساب بعد الدفع؟</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>يتم تسليم الحساب بشكل فوري عبر البريد الإلكتروني بعد تأكيد عملية الدفع مباشرةً.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <section id="contact">
-            <div class="container">
-                <h2 class="section-title">تواصل معنا</h2>
-                <div class="contact-content">
-                    <div class="contact-item">
-                        <i class="fab fa-discord"></i>
-                        <h4>دسكورد</h4>
-                        <p>@6z3_</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-telegram-plane"></i>
-                        <h4>تيليجرام</h4>
-                        <p>@myno_yt</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-youtube"></i>
-                        <h4>إيميل</h4>
-                        <p>@myno_yt</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">تواصل معنا</h2>
+                <div class="contact-content">
+                    <div class="contact-item">
+                        <i class="fab fa-discord"></i>
+                        <h4>دسكورد</h4>
+                        <p>@6z3_</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-telegram-plane"></i>
+                        <h4>تيليجرام</h4>
+                        <p>@myno_yt</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-youtube"></i>
+                        <h4>إيميل</h4>
+                        <p>@myno_yt</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <section id="about">
-            <div class="container">
-                <h2 class="section-title">عن ماينو</h2>
-                <img src="myno_yt.png" alt="Myno team member" class="about-image"
-               <p>                              
-               ماينو هو يوتيوبر عراقي متخصص في لعبة ماين كرافت، يتميز بلمساته الإبداعية في تقديم البثوث المباشرة، بالإضافة إلى دعمه المستمر للسيرفرات العربية. يسعى ماينو من خلال محتواه إلى تقديم تجربة هادفة وممتعة لجميع أفراد العائلة العربية، مع التركيز على المحتوى الإيجابي والآمن.
-                </p>
-            </div>
-        </section>
-    </main>
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">عن ماينو</h2>
+                <img src="myno_yt.png" alt="Myno team member" class="about-image">
+                <p>
+                    ماينو هو يوتيوبر عراقي متخصص في لعبة ماين كرافت، يتميز بلمساته الإبداعية في تقديم البثوث المباشرة، بالإضافة إلى دعمه المستمر للسيرفرات العربية. يسعى ماينو من خلال محتواه إلى تقديم تجربة هادفة وممتعة لجميع أفراد العائلة العربية، مع التركيز على المحتوى الإيجابي والآمن.
+                </p>
+            </div>
+        </section>
+    </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 ماينو - جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
+    <footer>
+        <div class="container">
+            <p>&copy; Nothing CopyRights (:.</p>
+        </div>
+    </footer>
 
-    <div class="purchase-modal" id="purchaseModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closePurchaseModal()">&times;</span>
-            <h2>طلب شراء الحساب</h2>
-            <form class="purchase-form">
-                <input type="text" placeholder="الاسم الكامل" required>
-                <input type="tel" placeholder="رقم الهاتف" required>
-                <select required>
-                    <option value="" selected disabled>طريقة الدفع</option>
-                    <option value="bank">تحويل بنكي</option>
-                    <option value="cash">دفعة يدوية</option>
-                    <option value="wallet">محفظة إلكترونية</option>
-                </select>
-                <button type="submit">تأكيد الطلب</button>
-            </form>
-        </div>
-    <div class="purchase-modal" id="purchaseModal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closePurchaseModal()">&times;</span>
-        <h2>طلب شراء الحساب</h2>
-        <form class="purchase-form" action="purchase.html" method="get">
-            <input type="text" placeholder="الاسم الكامل" required>
-            <input type="tel" placeholder="رقم الهاتف" required>
-            <select required>
-                <option value="" selected disabled>طريقة الدفع</option>
-                <option value="bank">تحويل بنكي</option>
-                <option value="cash">دفعة يدوية</option>
-                <option value="wallet">محفظة إلكترونية</option>
-            </select>
-            <button type="submit">تأكيد الطلب</button>
-        </form>
-    </div>
-</div>
+    <div class="purchase-modal" id="purchaseModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePurchaseModal()">&times;</span>
+            <h2>طلب شراء الحساب</h2>
+            <form class="purchase-form" action="purchase.html" method="get">
+                <input type="text" placeholder="الاسم الكامل" required>
+                <input type="tel" placeholder="رقم الهاتف" required>
+                <select required>
+                    <option value="" selected disabled>طريقة الدفع</option>
+                    <option value="bank">تحويل بنكي</option>
+                    <option value="cash">دفعة يدوية</option>
+                    <option value="wallet">محفظة إلكترونية</option>
+                </select>
+                <button type="submit">تأكيد الطلب</button>
+            </form>
+        </div>
+    </div>
 
-    <script>
-        // Function to handle section visibility on scroll
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('nav .nav-link');
+    <script>
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav .nav-link');
 
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5
-        };
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Update active link in navbar
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${entry.target.id}`) {
-                            link.classList.add('active');
-                        }
-                    });
-                } else {
-                    entry.target.classList.remove('visible');
-                }
-            });
-        }, observerOptions);
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${entry.target.id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
 
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+        sections.forEach(section => {
+            observer.observe(section);
+        });
 
-        // Currency dropdown toggle
-        const currencyBtn = document.getElementById('currency-btn');
-        const currencyDropdown = document.getElementById('currency-dropdown');
-        currencyBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currencyDropdown.classList.toggle('show');
-        });
+        const currencyBtn = document.getElementById('currency-btn');
+        const currencyDropdown = document.getElementById('currency-dropdown');
+        currencyBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currencyDropdown.classList.toggle('show');
+        });
 
-        document.addEventListener('click', (e) => {
-            if (!currencyBtn.contains(e.target) && !currencyDropdown.contains(e.target)) {
-                currencyDropdown.classList.remove('show');
-            }
-        });
+        document.addEventListener('click', (e) => {
+            if (!currencyBtn.contains(e.target) && !currencyDropdown.contains(e.target)) {
+                currencyDropdown.classList.remove('show');
+            }
+        });
 
-        // Update currency logic
-        document.querySelectorAll('.currency-option').forEach(option => {
-            option.addEventListener('click', () => {
-                const newCurrency = option.getAttribute('data-currency');
-                const currencyText = option.textContent;
-                currencyBtn.querySelector('span').textContent = currencyText;
+        document.querySelectorAll('.currency-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const newCurrency = option.getAttribute('data-currency');
+                const currencyText = option.textContent;
+                currencyBtn.querySelector('span').textContent = currencyText;
 
-                const priceElement = document.querySelector('.product-card .price');
-                const newPrice = priceElement.getAttribute(`data-${newCurrency.toLowerCase()}`);
-                if (newPrice) {
-                    priceElement.textContent = `${newPrice} ${currencyText.split(' ')[0]}`;
-                }
-                currencyDropdown.classList.remove('show');
-            });
-        });
+                const priceElement = document.querySelector('.product-card .price');
+                const newPrice = priceElement.getAttribute(`data-${newCurrency.toLowerCase()}`);
+                if (newPrice) {
+                    priceElement.textContent = `${newPrice} ${currencyText.split(' ')[0]}`;
+                }
+                currencyDropdown.classList.remove('show');
+            });
+        });
 
-        // Modal functions
-        function openPurchaseModal() {
-            document.getElementById('purchaseModal').style.display = 'flex';
-        }
+        function openPurchaseModal() {
+            document.getElementById('purchaseModal').style.display = 'flex';
+        }
 
-        function closePurchaseModal() {
-            document.getElementById('purchaseModal').style.display = 'none';
-        }
+        function closePurchaseModal() {
+            document.getElementById('purchaseModal').style.display = 'none';
+        }
 
-        // Sidebar functions for mobile
-        function toggleSidebar() {
-            const sidebar = document.getElementById("mySidebar");
-            if (sidebar.style.width === "250px") {
-                sidebar.style.width = "0";
-            } else {
-                sidebar.style.width = "250px";
-            }
-        }
+        function toggleSidebar() {
+            const sidebar = document.getElementById("mySidebar");
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "250px";
+            }
+        }
 
-        // FAQ Accordion
-        const faqItems = document.querySelectorAll('.faq-item');
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            question.addEventListener('click', () => {
-                const answer = item.querySelector('.faq-answer');
-                const icon = item.querySelector('.faq-question i');
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const answer = item.querySelector('.faq-answer');
+                const icon = item.querySelector('.faq-question i');
 
-                const isShowing = answer.classList.contains('show');
+                const isShowing = answer.classList.contains('show');
 
-                document.querySelectorAll('.faq-answer.show').forEach(ans => {
-                    ans.classList.remove('show');
-                    ans.previousElementSibling.querySelector('i').classList.remove('active');
-                });
+                document.querySelectorAll('.faq-answer.show').forEach(ans => {
+                    ans.classList.remove('show');
+                    ans.previousElementSibling.querySelector('i').classList.remove('active');
+                });
 
-                if (!isShowing) {
-                    answer.classList.add('show');
-                    icon.classList.add('active');
-                }
-            });
-        });
-    </script>
-<
+                if (!isShowing) {
+                    answer.classList.add('show');
+                    icon.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
